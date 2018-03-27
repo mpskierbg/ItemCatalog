@@ -21,10 +21,22 @@ DBSession = sessionmaker(bind=engine)
 session = DBSession()
 
 @app.route('/')
-@app.route('/building/')
-def showBuildings():
-    buildings = session.query(BuildingInfo).order_by(asc(BuildingInfo.name))
+@app.route('/buildingcatalog/')
+def showContinents():
+    continents = session.query(BuildingInfo).group_by(BuildingInfo.continent)
+    return render_template('continents.html', continents=continents)
+
+@app.route('/buildingcatalog/<string:continent>')
+def showCountry(continent):
+    buildings = session.query(BuildingInfo).filter(BuildingInfo.continent==continent).group_by(BuildingInfo.country)
+
+    return render_template('country.html', buildings=buildings)
+
+@app.route('/buildingcatalog/<string:continent>/<string:country>/building/')
+def showBuildings(continent, country):
+    buildings = session.query(BuildingInfo).filter(BuildingInfo.continent==continent, BuildingInfo.country==country).order_by(asc(BuildingInfo.name))
     return render_template('buildings.html', buildings=buildings)
+
 
 @app.route('/building/<int:building_id>/')
 @app.route('/building/<int:building_id>/details/')
