@@ -26,7 +26,7 @@ def showContinents():
     continents = session.query(BuildingInfo).group_by(BuildingInfo.continent)
     return render_template('continents.html', continents=continents)
 
-@app.route('/buildingcatalog/<string:continent>')
+@app.route('/buildingcatalog/<string:continent>/')
 def showCountry(continent):
     buildings = session.query(BuildingInfo).filter(BuildingInfo.continent==continent).group_by(BuildingInfo.country)
 
@@ -64,7 +64,7 @@ def showInfo(building_name):
     # else:
     return render_template('info.html', info=info, building=building)
 
-@app.route('/building/<string:building_name>/details/edit', methods=['GET', 'POST'])
+@app.route('/building/<string:building_name>/details/edit/', methods=['GET', 'POST'])
 def editBuildingInfo(building_name):
     # if 'username' not in login_session:
     #     return redirect('/login')
@@ -98,6 +98,16 @@ def editBuildingInfo(building_name):
         return redirect(url_for('showInfo', building_name=editedBuilding.name))
     else:
         return render_template('editbuildinginfo.html', building=editedBuilding)
+
+@app.route('/building/<string:building_name>/details/delete/', methods=['GET', 'POST'])
+def deleteBuilding(building_name):
+    buildingToDelete = session.query(BuildingInfo).filter_by(name=building_name).first()
+    if request.method == 'POST':
+        session.delete(buildingToDelete)
+        session.commit()
+        return redirect(url_for('showBuildings', continent=buildingToDelete.continent, country=buildingToDelete.country))
+    else:
+        return render_template('deleteconfirmation.html', building=buildingToDelete)
 
 if __name__ == '__main__':
     app.secret_key = 'super_secret_key'
