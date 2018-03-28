@@ -34,7 +34,7 @@
 	<div class="row padding-top padding-bottom">
 		<div class="col-md-1"></div>
 		<div class="col-md-10 padding-none">
-			{#<a href="{{url_for('newBuilding')}}">#}
+			<a href="{{url_for('newBuilding')}}">
 				<button class="btn btn-default" id="new-building">
 					<span class="glyphicon glyphicon-cutlery" aria-hidden="true"></span>Add Building
 				</button>
@@ -43,7 +43,7 @@
 		<div class="col-md-1"></div>
 	</div>
 	{% for building in buildings %}
-		<a href = "{{url_for('showInfo', building_id = building.id)}}">
+		<a href = "{{url_for('showInfo', building_name = building.name)}}">
 			<div class="row">
 				<div class="col-md-1"></div>
 					<div class="col-md-10 building-list">

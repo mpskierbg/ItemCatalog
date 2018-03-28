@@ -37,17 +37,67 @@ def showBuildings(continent, country):
     buildings = session.query(BuildingInfo).filter(BuildingInfo.continent==continent, BuildingInfo.country==country).order_by(asc(BuildingInfo.name))
     return render_template('buildings.html', buildings=buildings)
 
+@app.route('/building/new/', methods=['GET', 'POST'])
+def newBuilding():
+    # if 'username' not in login_session:
+    #     return redirect('/login')
+    if request.method == 'POST':
+        newBuilding = BuildingInfo(
+            name=request.form['name'],
+            #user_id=login_session['user_id'],
+            continent=request.form['continent'],
+            country=request.form['country'])
+        session.add(newBuilding)
+        flash('New Building %s Successfully Created' % newBuilding.name)
+        session.commit()
+        return redirect(url_for('showContinents'))
+    else:
+        return render_template('newBuilding.html')
 
-@app.route('/building/<int:building_id>/')
-@app.route('/building/<int:building_id>/details/')
-def showInfo(building_id):
-    building = session.query(Building).filter_by(id=building_id).one()
+@app.route('/building/<string:building_name>/details/')
+def showInfo(building_name):
+    building = session.query(BuildingInfo).filter_by(name=building_name).first()
     # creator = getUserInfo(building.user_id)
-    info = session.query(BuildingInfo).filter_by(building_id=building_id).all()
+    info = session.query(BuildingInfo).filter_by(name=building_name).all()
     #if 'username' not in login_session or creator.id != login_session['user_id']:
     #     return render_template('publicmenu.html', items=items, restaurant=restaurant, creator=creator)
     # else:
     return render_template('info.html', info=info, building=building)
+
+@app.route('/building/<string:building_name>/details/edit', methods=['GET', 'POST'])
+def editBuildingInfo(building_name):
+    # if 'username' not in login_session:
+    #     return redirect('/login')
+
+    editedBuilding = session.query(BuildingInfo).filter_by(name=building_name).first()
+    #if login_session['user_id'] != restaurant.user_id:
+    #    return "<script>function myFunction() {alert('You are not authorized to edit menu items to this restaurant. Please create your own restaurant in order to edit items.');}</script><body onload='myFunction()'>"
+    if request.method == 'POST':
+        if request.form['name']:
+            editedBuilding.name = request.form['name']
+        if request.form['description']:
+            editedBuilding.description = request.form['description']
+        if request.form['style']:
+            editedBuilding.style = request.form['style']
+        if request.form['continent']:
+            editedBuilding.continent = request.form['continent']
+        if request.form['country']:
+            editedBuilding.country = request.form['country']
+        if request.form['year_completed']:
+            editedBuilding.year_completed = request.form['year_completed']
+        if request.form['height']:
+            editedBuilding.height = request.form['height']
+        if request.form['floors']:
+            editedBuilding.floors = request.form['floors']
+        if request.form['architect']:
+            editedBuilding.architect = request.form['architect']
+        # added toggles or radios for tallest building
+        session.add(editedBuilding)
+        session.commit()
+        flash('Menu Item Successfully Edited')
+        return redirect(url_for('showInfo', building_name=editedBuilding.name))
+    else:
+        return render_template('editbuildinginfo.html', building=editedBuilding)
 
 if __name__ == '__main__':
     app.secret_key = 'super_secret_key'
