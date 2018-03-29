@@ -33,6 +33,7 @@ def showLogin():
     login_session['state'] = state
     return render_template('login.html', STATE=state)
 
+# Signs in with your gmail account
 @app.route('/gconnect', methods=['POST'])
 def gconnect():
     # Validate state token.
@@ -124,6 +125,30 @@ def gconnect():
     print "done!"
     return output
 
+# I want one for github and linkedin.
+# @app.route('/gitconnect', methods=['POST'])
+# def gitconnect():
+#
+# @app.route('/lconnect', methods=['POST'])
+# def lconnect():
+
+# JSON APIs to view Building Information.
+
+# JSON for specific building info.
+@app.route('/buildingcatalog/<int:building_id>/info/JSON')
+def buildingInfoJSON(building_id):
+    building = session.query(Building).filter_by(id=building_id).first()
+    items = session.query(BuildingInfo).filter_by(
+        building_id=building_id).all()
+    return jsonify(BuildingInfo=[i.serialize for i in items])
+
+# JSON for all the buildings
+@app.route('/buildingcatalog/JSON')
+def buildingsJSON():
+    buildings = session.query(Building).all()
+    return jsonify(buildings=[r.serialize for r in buildings])
+
+
 # User Helper FUnctions
 def createUser(login_session):
     newUser = User(name=login_session['username'], email=login_session['email'],
@@ -143,6 +168,34 @@ def getUserID(email):
         return user.id
     except:
         return None
+
+@app.route('/gdisconnect')
+def gdisconnect():
+    # Only disconnect a connected user.
+    access_token = login_session.get('access_token')
+    if access_token is None:
+        response = make_response(
+            json.dumps('Current user is not connected.'), 401)
+        response.headers['Content-Type'] = 'application/json'
+        return response
+    url = 'https://accounts.google.com/o/oauth2/revoke?token=%s' % access_token
+    h = httplib2.Http()
+    result = h.request(url, 'GET')[0]
+    if result['status'] == '200':
+        response = make_response(json.dumps('Successfully disconnected.'), 200)
+        response.headers['Content-Type'] = 'application/json'
+        return response
+    else:
+        response = make_response(
+            json.dumps('Failed to revoke given user.'), 400)
+        response.headers['Content-Type'] = 'application/json'
+        return response
+
+# Route link in header.html shows all buildings in database by name
+@app.route('/allbuildings/')
+def showAllBuildings():
+    buildings = session.query(BuildingInfo).order_by(BuildingInfo.name)
+    return render_template('showallbuildings.html', buildings=buildings)
 
 # Home route, creates a list of all possible contients in the database.
 @app.route('/')
@@ -242,6 +295,27 @@ def deleteBuilding(building_name):
         return redirect(url_for('showBuildings', continent=buildingToDelete.continent, country=buildingToDelete.country))
     else:
         return render_template('deleteconfirmation.html', building=buildingToDelete)
+
+# disconnect based on provider
+@app.route('/disconnect')
+def disconnect():
+    if 'provider' in login_session:
+        if login_session['provider'] == 'google':
+            gdisconnect()
+            del login_session['picture']
+            del login_session['user_id']
+            del login_session['gplus_id']
+            del login_session['access_token']
+        del login_session['username']
+        del login_session['email']
+        # del login_session['picture']
+        # del login_session['user_id']
+        del login_session['provider']
+        flash("You have Successfully been logged out.")
+        return redirect(url_for('showContinents'))
+    else:
+        flash("You were not loggin in.")
+        return redirect(url_for('showContients'))
 
 if __name__ == '__main__':
     app.secret_key = 'super_secret_key'

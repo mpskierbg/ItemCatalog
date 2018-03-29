@@ -62,7 +62,7 @@ class BuildingInfo(Base):
             'continent'         : self.continent,
             'country'           : self.country,
             'style'             : self.style,
-            'height'            : style.height,
+            'height'            : self.height,
             'floors'            : self.floors,
             'tallest_world'     : self.tallest_world,
             'tallest_continent' : self.tallest_continent,
