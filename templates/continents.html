@@ -2,65 +2,24 @@
 {% extends "main.html" %}
 {% block content %}
 {% include "header.html" %}
-	<div class="row top-menu">
-		<div class="col-md-10"></div>
-		<div class="col-md-2 text-right">
-					</div>
-	</div>
-	<div class="row divider blue">
-		<div class="col-md-12"></div>
-	</div>
-	<div class="row banner main">
-		<div class="col-md-1"></div>
-		<div class="col-md-11 padding-none">
-			<h1>Buildings Around the World</h1>
-		</div>
-	</div>
-
-<div class = 'flash'>
-		      {% with messages = get_flashed_messages() %}
-      {% if messages %}
-
-        <ul>
+<h1>Buildings Around the World</h1>
+{% with messages = get_flashed_messages() %}
+	{% if messages %}
+		<ul>
         {% for message in messages %}
             <li> <strong> {{ message }} </strong> </li>
         {% endfor %}
         </ul>
-        {% endif %}
-    {% endwith %}
-
-</div>
-<div class="row padding-top padding-bottom">
-  <div class="col-md-1"></div>
-  <div class="col-md-10 padding-none">
-    <a href="{{url_for('newBuilding')}}">
-      <button class="btn btn-default" id="new-building">
-        <span class="glyphicon glyphicon-home" aria-hidden="true"></span>Add Building
-      </button>
-    </a>
-  </div>
-  <div class="col-md-1"></div>
-</div>
-	<div class="row padding-top padding-bottom">
-		<div class="col-md-1"></div>
-		<div class="col-md-10 padding-none">
-			<h2>Select which continent's buildings you would like to explore!</h2>
-      <h4>Not all continents are listed, but when you add a building in that
-      continent, it will.</h4>
-		</div>
-		<div class="col-md-1"></div>
-	</div>
-  {% for continent in continents %}
-		<a href = "{{url_for('showCountry', continent = continent.continent)}}" >
-			<div class="row">
-				<div class="col-md-1"></div>
-					<div class="col-md-10 building-list">
-
-            <h3>{{ continent.continent }}</h3>
-					</div>
-				<div class="col-md-1"></div>
-			</div>
-		</a>
-
-  {% endfor %}
+    {% endif %}
+{% endwith %}
+<a href="{{url_for('newBuilding')}}">
+    Add Building
+</a>
+ <h2>Select which continent's buildings you would like to explore!</h2>
+<h4>Not all continents are listed, but when you add a building in that continent, it will.</h4>
+{% for continent in continents %}
+<a href = "{{url_for('showCountry', continent = continent.continent)}}" >
+<h3>{{ continent.continent }}</h3>
+</a>
+{% endfor %}
 {% endblock %}

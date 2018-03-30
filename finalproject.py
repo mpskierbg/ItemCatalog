@@ -132,9 +132,8 @@ def gconnect():
 # @app.route('/lconnect', methods=['POST'])
 # def lconnect():
 
-# JSON APIs to view Building Information.
-
-# JSON for specific building info.
+# JSON APIs to view Building Information:
+# 1. JSON for specific building info.
 @app.route('/buildingcatalog/<int:building_id>/info/JSON')
 def buildingInfoJSON(building_id):
     building = session.query(Building).filter_by(id=building_id).first()
@@ -142,7 +141,7 @@ def buildingInfoJSON(building_id):
         building_id=building_id).all()
     return jsonify(BuildingInfo=[i.serialize for i in items])
 
-# JSON for all the buildings
+# 2. JSON for all the buildings
 @app.route('/buildingcatalog/JSON')
 def buildingsJSON():
     buildings = session.query(Building).all()
