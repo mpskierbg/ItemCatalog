@@ -115,17 +115,16 @@ def gconnect():
     login_session['user_id'] = user_id
 
     output = ''
-    output += '<h1>Welcome, '
+    output += '<h2 class="dark">Welcome, '
     output += login_session['username']
-    output += '!</h1>'
+    output += '!</h2>'
     output += '<img src="'
     output += login_session['picture']
-    output += ' " style = "width: 300px; height: 300px; border-radius: 150px; -webkit-border-radius: 150px; -moz-border-radius: 150px;"> '
+    output += ' " style = "width: 150px; height: 150px; border-radius: 75px; -webkit-border-radius: 75px; -moz-border-radius: 75px;"> '
     flash("you are now logged in as %s" % login_session['username'])
-    print "done!"
     return output
 
-# I want one for github and linkedin.
+# I want in the future to add one for github and linkedin.
 # @app.route('/gitconnect', methods=['POST'])
 # def gitconnect():
 #
@@ -233,12 +232,12 @@ def showInfo(building_name):
 # The route allows the user to create a new building.
 @app.route('/building/new/', methods=['GET', 'POST'])
 def newBuilding():
-    # if 'username' not in login_session:
-    #     return redirect('/login')
+    if 'username' not in login_session:
+        return redirect('/login')
     if request.method == 'POST':
         newBuilding = BuildingInfo(
             name=request.form['name'],
-            #user_id=login_session['user_id'],
+            user_id=login_session['user_id'],
             continent=request.form['continent'],
             country=request.form['country'])
         session.add(newBuilding)
@@ -251,12 +250,12 @@ def newBuilding():
 # This route edits the building you selected with the showInfo route.
 @app.route('/building/<string:building_name>/details/edit/', methods=['GET', 'POST'])
 def editBuildingInfo(building_name):
-    # if 'username' not in login_session:
-    #     return redirect('/login')
-
+    if 'username' not in login_session:
+        return redirect('/login')
     editedBuilding = session.query(BuildingInfo).filter_by(name=building_name).first()
-    #if login_session['user_id'] != restaurant.user_id:
-    #    return "<script>function myFunction() {alert('You are not authorized to edit menu items to this restaurant. Please create your own restaurant in order to edit items.');}</script><body onload='myFunction()'>"
+    if login_session['user_id'] != editedBuilding.user_id:
+        flash("You can only edit buildings you created! Please create some buildings.")
+        return redirect(url_for('newBuilding'))
     if request.method == 'POST':
         if request.form['name']:
             editedBuilding.name = request.form['name']
@@ -287,11 +286,16 @@ def editBuildingInfo(building_name):
 # This route lets you delete the building you selected int eh showInfo route.
 @app.route('/building/<string:building_name>/details/delete/', methods=['GET', 'POST'])
 def deleteBuilding(building_name):
+    if 'username' not in login_session:
+        return redirect('/login')
     buildingToDelete = session.query(BuildingInfo).filter_by(name=building_name).first()
+    if login_session['user_id'] != buildingToDelete.user_id:
+        flash("You can only delete buildings you created! Please create some buildings.")
+        return redirect(url_for('newBuilding'))
     if request.method == 'POST':
         session.delete(buildingToDelete)
         session.commit()
-        return redirect(url_for('showBuildings', continent=buildingToDelete.continent, country=buildingToDelete.country))
+        return redirect(url_for('showContinents'))
     else:
         return render_template('deleteconfirmation.html', building=buildingToDelete)
 

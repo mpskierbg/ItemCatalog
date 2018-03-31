@@ -1,22 +1,69 @@
+<!DOCTYPE html>
+<!-- tutorial for flexy web design=https://www.youtube.com/watch?v=Rf_DjL_dbug&t=163s -->
 <html>
-
 <head>
-<link rel=stylesheet type=text/css href="{{ url_for('static', filename='styles.css') }}">
-	</head>
+{% include "main.html" %}
+{% block content %}
+</head>
+
+<body>
+<div class='wrapper'>
+	{% include "header.html" %}
+	<div class="row">
+		<div class="col-12" style="padding: 2%;">
+			<h2 class="dark">Are you sure you want to delete {{building.name}}?</h2>
+			<form action="#" method = 'post'>
+
+				<button type="sumbit" class="button2"id="sumbit"><span class="fa fa-trash"></span>Delete</a></button>
+
+
+
+
+				<a href ='{{url_for("showInfo", building_name=building.name)}}'>
+				<button class="button2" type="button">
+				<span class="fa fa-ban" aria-hidden="true"></span>    Cancel</button></a>
+			</form>
+		</div>
+	</div>
+{% include "footer.html" %}
+{% endblock %}
+</div> <!-- End Wrapper -->
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{#<!--
 
 <body>
 <h1> Are you sure you want to delete {{building.name}}? </h1>
 
-<form action="#" method = 'post'>
+
 
 <input type='submit', value = 'Delete'>
 
 
 
 
-</form>
 
-<a href = '#'> Cancel </a>
+
+
 </body>
 
-</html>
+</html> -->
+#}

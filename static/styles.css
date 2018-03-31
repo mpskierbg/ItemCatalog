@@ -20,7 +20,7 @@ html, body {
 }
 
 #header {
-	background-color: #AFDED4;
+	background-color:#86C5DA;
 }
 
 .logo {
@@ -31,9 +31,12 @@ img {
 	max-width: 100%;
 }
 
-h2.dark {
+.dark {
 	color: #34495E;
 }
+
+
+
 
 h2 {
 	font: 300 2em/1 'Raleway', sans-serif;
@@ -63,8 +66,104 @@ h2 {
 	color: #F6931E;
 }
 
+#container {
+    position: relative;
+    text-align: center;
+	color: white;
+}
+
+#flash {
+	background-color: #86C5DA;
+	width:100%;
+	text-decoration: none;
+	padding: 0;
+	margin: 0;
+}
+#flash ul {
+	margin: 0;
+	padding: 0;
+}
+#flash li {
+	list-style-type: none;
+	text-align: center;
+	padding: 1%;
+	font-size: 75%;
+	margin: 0;
+}
+.centered {
+	font-size: 4em;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+form {
+	font-size: 80%;
+}
+input[type=text], textarea {
+    width: 100%;
+    padding: 12px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    border: none;
+    background-color: #C0C0C0;
+    color: black;
+	resize: vertical;
+}
+label {
+    padding: 12px 12px 12px 0;
+    display: inline-block;
+}
+
 p {
 	padding: 2%;
+}
+
+a{
+	text-decoration: none;
+}
+
+.button {
+    background-color: white;
+	border: 2px solid #3C8BB6;
+    color: #3C8BB6;
+    padding: 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    -webkit-transition-duration: 0.4s; /* Safari */
+    transition-duration: 0.4s;
+    cursor: pointer;
+	border-radius: 4px;
+}
+
+.button2 {
+	background-color: white;
+	border: 2px solid #909090;
+	color: #909090;
+	padding: 20px 10px 20px 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    -webkit-transition-duration: 0.4s; /* Safari */
+    transition-duration: 0.4s;
+    cursor: pointer;
+	border-radius: 4px;
+}
+
+.button:hover {
+    background-color: #008CBA;
+    color: white;
+}
+
+.button2:hover {
+	background-color: #909090;
+    color: white;
 }
 
 /*== Media Queries --*/
@@ -76,6 +175,8 @@ p {
 	.social i {
 		font-size: 2em;
 	}
+
+
 }
 
 @media all and (min-width: 768px){
@@ -83,6 +184,10 @@ p {
 		display: flex;
 		margin: 0;
 	}
+	.button, .button2 {
+		width:98%;
+	}
+
 	[class*="col-"]:last-child {
 		margin:0;
 	}
@@ -125,6 +230,13 @@ p {
 	.social i {
 		font-size: 1.25em;
 	}
+
+	.centered {
+		font-size: 1.5em;
+	    position: absolute;
+	    top: 50%;
+	    left: 50%;
+	    transform: translate(-50%, -50%);
 }
 
 @media all and (max-width: 500px){

@@ -1,58 +1,47 @@
 <!DOCTYPE html>
-{% extends "main.html" %}
+<!-- tutorial for flexy web design=https://www.youtube.com/watch?v=Rf_DjL_dbug&t=163s -->
+<html>
+<head>
+{% include "main.html" %}
 {% block content %}
-{% include "header.html" %}
-	<div class="row top-menu">
-		<div class="col-md-10"></div>
-		<div class="col-md-2 text-right">
-					</div>
-	</div>
-	<div class="row divider blue">
-		<div class="col-md-12"></div>
-	</div>
-	<div class="row banner main">
-		<div class="col-md-1"></div>
-		<div class="col-md-11 padding-none">
-			<h1>Buildings</h1>
+</head>
+
+<body>
+<div class='wrapper'>
+	{% include "header.html" %}
+	<div class="row">
+		<div class="col-12">
+			<!-- need to style this -->
+			<!-- <div class="flash">
+				{% with messages = get_flashed_messages() %}
+					{% if messages %}
+						<ul>
+				        {% for message in messages %}
+				            <li><h2 class="dark">{{ message }}<h2></li>
+				        {% endfor %}
+				        </ul>
+				    {% endif %}
+				{% endwith %}
+			</div> -->
+			<img src="{{ url_for('static', filename='4.png') }}"/>
 		</div>
 	</div>
-
-<div class = 'flash'>
-		      {% with messages = get_flashed_messages() %}
-      {% if messages %}
-
-        <ul>
-        {% for message in messages %}
-            <li> <strong> {{ message }} </strong> </li>
-        {% endfor %}
-        </ul>
-        {% endif %}
-    {% endwith %}
-
-</div>
-
-	<div class="row padding-top padding-bottom">
-		<div class="col-md-1"></div>
-		<div class="col-md-10 padding-none">
-			<a href="{{url_for('newBuilding')}}">
-				<button class="btn btn-default" id="new-building">
-					<span class="glyphicon glyphicon-home" aria-hidden="true"></span>Add Building
-				</button>
-			</a>
+	<div class="row">
+		<div class="col-12" style="padding: 2%;">
+			<h2 class="dark">Select a country to explore</h2>
 		</div>
-		<div class="col-md-1"></div>
 	</div>
 	{% for building in buildings %}
 		<a href = "{{url_for('showBuildings', continent = building.continent, country = building.country)}}">
-			<div class="row">
-				<div class="col-md-1"></div>
-					<div class="col-md-10 building-list">
-
-						<h3>{{ building.country }}</h3>
-
-					</div>
-				<div class="col-md-1"></div>
+			<div class="row" style="margin: 1% 0 1% 0">
+				<div class="col-12" style="background-color: #3C8BB6; padding: 5% 0 3%;">
+					<h2>{{ building.country }}</h2>
+				</div>
 			</div>
 		</a>
 	{% endfor %}
+{% include "footer.html" %}
 {% endblock %}
+</div> <!-- End Wrapper -->
+</body>
+</html>

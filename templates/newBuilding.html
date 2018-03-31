@@ -1,29 +1,51 @@
-{% extends "main.html" %}
+
+
+<!DOCTYPE html>
+<!-- tutorial for flexy web design=https://www.youtube.com/watch?v=Rf_DjL_dbug&t=163s -->
+<html>
+<head>
+{% include "main.html" %}
 {% block content %}
-{% include "header.html" %}
-	<div class="row divider green">
-		<div class="col-md-12"></div>
-	</div>
-	<div class="row banner menu">
-		<div class="col-md-11 col-md-offset-1 padding-none">
-			<h1>New Building</h1>
+</head>
+
+<body>
+<div class='wrapper'>
+	{% include "header.html" %}
+	<div class="row">
+		<div class="col-12" style="padding: 2%;">
+			<h2 class="dark">You are creating a new building</h2>
+			<div id="flash">
+				{% with messages = get_flashed_messages() %}
+					{% if messages %}
+						<ul>
+						{% for message in messages %}
+							<li class="dark">{{ message }}</li>
+						{% endfor %}
+						</ul>
+					{% endif %}
+				{% endwith %}
+			</div>
 		</div>
 	</div>
-	<div class="row">
-		<div class="col-md-6 col-md-offset-1 padding-top">
+	<div class="row" style="margin: 1% 0 1% 0">
+		<div class="col-12" style="background-color: #3C8BB6;">
 			<form action="#" method = "post">
 				<div class="form-group">
 				<label for="name">Name:</label>
 				<input type ="text" class="form-control" maxlength="100" name="name">
-        <label for="name">Continent:</label>
-        <input type ="text" class="form-control" maxlength="100" name="continent">
-        <label for="name">Country:</label>
-        <input type ="text" class="form-control" maxlength="100" name="country">
-				<div class="padding-bottom"></div>
-				<button type="submit" class="btn btn-default" id="submit" type="submit">
-				<span class="glyphicon glyphicon-cutlery" aria-hidden="true"></span>Create</button>
+        		<label for="name">Continent:</label>
+        		<input type ="text" class="form-control" maxlength="100" name="continent">
+        		<label for="name">Country:</label>
+        		<input type ="text" class="form-control" maxlength="100" name="country">
+
+				<button type="submit" class="button" id="submit" type="submit">
+				<span class="fa fa-cloud" aria-hidden="true"></span>  Create</button>
 				</div>
 			</form>
 		</div>
 	</div>
+{% include "footer.html" %}
 {% endblock %}
+</div> <!-- End Wrapper -->
+</body>
+</html>

@@ -2,144 +2,45 @@
 <!-- tutorial for flexy web design=https://www.youtube.com/watch?v=Rf_DjL_dbug&t=163s -->
 <html>
 <head>
-  <meta charset="UTF-8">
-  <title>Building Item Catalog</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel=stylesheet type=text/css href="{{ url_for('static', filename='styles.css') }}">
-  <link rel=stylesheet type=text/css href="{{ url_for('static', filename='nav.css') }}">
-  <link rel=stylesheet href="{{ url_for('static', filename='font-awesome/css/font-awesome.min.css') }}">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
-  <link rel=stylesheet type=text/css href="{{ url_for('static', filename='font-awesome.min.css') }}">
+{% include "main.html" %}
+{% block content %}
 </head>
 
 <body>
 <div class='wrapper'>
-	<div class="row" id="header">
+	{% include "header.html" %}
+	<div class="row" id="container">
 		<div class="col-12">
-			<img class="logo" src="{{ url_for('static', filename='flexy-logo.png') }}"/>
-		</div>
-	</div>
-	<div class="row">
-		<div class="col-12">
-			<nav role="navigation" id="nav">
-				<input type="checkbox" class="trigger" id="mainNavButton">
-				<label for="mainNavButton" onclick>Menu</label>
-				<ul>
-					<li><a href="#">Home</a></li>
-					<li><a href="#">About Is</a></li>
-					<li><a href="#">Products</a></li>
-					<li><a href="#">Blog</a></li>
-					<li><a href="#">Specials</a></li>
-					<li><a href="#">Contact Us</a></li>
-				</ul>
-			</nav>
-		</div>
-	</div>
-	<div class="row">
-		<div class="col-12">
-			<img src="{{ url_for('static', filename='kite.png') }}"/>
+			<img src="{{ url_for('static', filename='4.png') }}"/>
+			<div id="flash">
+				{% with messages = get_flashed_messages() %}
+					{% if messages %}
+						<ul>
+						{% for message in messages %}
+							<li class="dark">{{ message }}</li>
+						{% endfor %}
+						</ul>
+					{% endif %}
+				{% endwith %}
+			</div>
 		</div>
 	</div>
 	<div class="row">
 		<div class="col-12" style="padding: 2%;">
-			<h2 class="dark">Welcome to my Building Catalog</h2>
+			<h2 class="dark">Select a continent to explore</h2>
 		</div>
 	</div>
-	<div class="row">
-		<div class="col-12" style="background-color: #3C8BB6; padding: 5% 0 3%;">
-			<img src="{{ url_for('static', filename='paper.png') }}"/>
-		</div>
-	</div>
-	<div class="row" style="background-color: #F6931E;">
-		<div class="col-11">
-			<h2>Get ready for take off!</h2>
-		</div>
-		<div class="col-3">
-			<img class="circle" src="{{ url_for('static', filename='take-off.png') }}"/>
-		</div>
-	</div>
-	<div class="row" style="background-color: #1ABC9C;">
-		<div class="col-10">
-			<h2>We're flying around the globe.</h2>
-		</div>
-		<div class="col-3">
-			<img class="circle" src="{{ url_for('static', filename='orange-globe.png') }}"/>
-		</div>
-	</div>
-	<div class="row" style="background-color: #E5EF3F;">
-		<div class="col-9">
-			<h2 class="dark">Above the clouds &amp; over the sea.</h2>
-		</div>
-		<div class="col-3">
-			<img class="circle" src="{{ url_for('static', filename='waves.png') }}"/>
-		</div>
-	</div>
-	<div class="row" style="background-color: #34495E;">
-		<div class="col-8">
-			<h2>In just 42 hours and 27 minutes.</h2>
-		</div>
-		<div class="col-3">
-			<img class="circle" src="{{ url_for('static', filename='plane.png') }}"/>
-		</div>
-	</div>
-	<div class="row" style="background-color: #00AFE1;">
-		<div class="col-7">
-			<h2>So come along for the ride.</h2>
-		</div>
-		<div class="col-3">
-			<img class="circle" src="{{ url_for('static', filename='paper-blue.png') }}"/>
-		</div>
-	</div>
-	<div class="row">
-		<div class="col-12" style="background-color: #66D4FF;">
-			<img src="{{ url_for('static', filename='plane-background.png') }}"/>
-		</div>
-	</div>
-	<div class="row" style="background-color: #66D4FF;">
-		<div class="col-12">
-			<h2>Follow Us</h2>
-		</div>
-	</div>
-	<div class="row" style="background-color: #66D4FF;">
-		<div class="col-12">
-			<ul class="social">
-				<li><a href="#"><i class='fa fa-facebook'></i></a></li>
-				<li><a href="#"><i class='fa fa-google-plus'></i></a></li>
-				<li><a href="#"><i class='fa fa-twitter'></i></a></li>
-				<li><a href="#"><i class='fa fa-youtube'></i></a></li>
-				<li><a href="#"><i class='fa fa-instagram'></i></a></li>
-			</ul>
-		</div>
-	</div>
-	<div class="row" style="background-color: #34495E; border-top: 2px solid #F6931E;">
-		<div class="col-12">
-			<p>&copy Flexy.</p>
-		</div>
-	</div>
-
-
-{#<!--
-<h1>Buildings Around the World</h1>
-{% with messages = get_flashed_messages() %}
-	{% if messages %}
-		<ul>
-        {% for message in messages %}
-            <li> <strong> {{ message }} </strong> </li>
-        {% endfor %}
-        </ul>
-    {% endif %}
-{% endwith %}
-<a href="{{url_for('newBuilding')}}">
-    Add Building
-</a>
- <h2>Select which continent's buildings you would like to explore!</h2>
-<h4>Not all continents are listed, but when you add a building in that continent, it will.</h4>
-{% for continent in continents %}
-<a href = "{{url_for('showCountry', continent = continent.continent)}}" >
-<h3>{{ continent.continent }}</h3>
-</a>
-{% endfor %}
-{% endblock %} -->#}
+	{% for continent in continents %}
+		<a style="display:block" href="{{url_for('showCountry', continent=continent.continent)}}">
+			<div class="row" style="margin: 1% 0 1% 0">
+				<div class="col-12" style="background-color: #3C8BB6; padding: 5% 0 3%;">
+					<h2>{{ continent.continent }}</h2>
+				</div>
+			</div>
+		</a>
+	{% endfor %}
+{% include "footer.html" %}
+{% endblock %}
 </div> <!-- End Wrapper -->
 </body>
 </html>

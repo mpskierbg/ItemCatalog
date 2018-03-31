@@ -27,14 +27,14 @@ body {
 #nav ul li a {
   display: block;
   padding: .8em;
-  background: #16a085;
+  background: #3C8BB6;
   color: white;
   text-decoration: none;
   border-right: 1px solid #34495e;
   font-size: .9em;
 }
 #nav ul li a:hover {
-  background: #138a72;
+  background: #24556e;
 }
 #nav ul li:last-of-type a {
   border-right: 0px;
@@ -75,7 +75,7 @@ body {
   font-size: .9em;
   margin: 0;
   cursor: pointer;
-  background: #16a085;
+  background:  #3C8BB6;
   line-height: 2em;
   color: white;
   text-align: left!important;
